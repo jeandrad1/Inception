@@ -18,7 +18,9 @@ ENTRYPOINT ["sh", "-c", " \
         GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO '${MYSQL_USER}'@'%'; \
         CREATE USER IF NOT EXISTS '${MARIADB_ADMIN_USER}'@'%' IDENTIFIED BY '${MARIADB_ADMIN_PASSWORD}'; \
         GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO '${MARIADB_ADMIN_USER}'@'%'; \
-        FLUSH PRIVILEGES; ; wait \"$pid\";\
+        FLUSH PRIVILEGES; \
+    \"; \
+    wait \"$pid\"; \
 "]
 
 # Expose MariaDB port
