@@ -1,10 +1,8 @@
-version: '3.8'
-
 services:
   # WordPress with PHP-FPM
   wordpress:
     build:
-      context: ./wordpress  # Path to the custom WordPress Dockerfile
+      context: ./requirements/wordpress  # Path to the custom WordPress Dockerfile
     environment:
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
@@ -27,7 +25,7 @@ services:
   # MariaDB Database
   db:
     build:
-      context: ./mariadb  # Path to the custom MariaDB Dockerfile
+      context: ./requirements/mariadb  # Path to the custom MariaDB Dockerfile
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -50,7 +48,7 @@ services:
   # NGINX Reverse Proxy
   nginx:
     build:
-      context: ./nginx  # Path to the custom NGINX Dockerfile
+      context: ./requirements/nginx  # Path to the custom NGINX Dockerfile
     ports:
       - "80:80"
       - "443:443"
