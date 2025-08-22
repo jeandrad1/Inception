@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # WordPress with PHP-FPM
+  wordpress:
+    build:
+      context: ./wordpress  # Path to the custom WordPress Dockerfile
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      WORDPRESS_DB_USER: ${MARIADB_ADMIN_USER}
+      WORDPRESS_DB_PASSWORD: ${MARIADB_ADMIN_PASSWORD}
+    volumes:
+      - wordpress_data:/var/www/html  # Volume for WordPress website files
+    depends_on:
+      - db
+    networks:
+      - wordpress_network
+    restart: always  # Restart the container automatically if it crashes
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000"]
+      interval: 30s
+      retries: 3
+      start_period: 10s
+      timeout: 5s
+
+  # MariaDB Database
+  db:
+    build:
+      context: ./mariadb  # Path to the custom MariaDB Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MARIADB_ADMIN_USER: ${MARIADB_ADMIN_USER}
+      MARIADB_ADMIN_PASSWORD: ${MARIADB_ADMIN_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql  # Volume for MariaDB data
+    networks:
+      - wordpress_network
+    restart: always  # Restart the container automatically if it crashes
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  # NGINX Reverse Proxy
+  nginx:
+    build:
+      context: ./nginx  # Path to the custom NGINX Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - wordpress_data:/var/www/html  # Volume for website files
+    depends_on:
+      - wordpress
+    networks:
+      - wordpress_network
+    restart: always  # Restart the container automatically if it crashes
+
+# Volumes for persistent data storage
+volumes:
+  db_data:   # Volume for MariaDB database data
+  wordpress_data:  # Volume for WordPress website files
+
+# Networks for secure communication
+networks:
+  wordpress_network:
+    driver: bridge  # Custom network for communication between containers
