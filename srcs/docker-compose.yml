@@ -6,8 +6,8 @@ services:
     environment:
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
-      WORDPRESS_DB_USER: ${MARIADB_ADMIN_USER}
-      WORDPRESS_DB_PASSWORD: ${MARIADB_ADMIN_PASSWORD}
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - wordpress_data:/var/www/html  # Volume for WordPress website files
     depends_on:
@@ -16,12 +16,12 @@ services:
       - wordpress_network
     restart: always  # Restart the container automatically if it crashes
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000"]
-      interval: 30s
-      retries: 3
-      start_period: 10s
-      timeout: 5s
-
+      test: ["CMD", "curl", "-f", "http://localhost:9000/ping"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+  
   # MariaDB Database
   db:
     build:
@@ -39,7 +39,7 @@ services:
       - wordpress_network
     restart: always  # Restart the container automatically if it crashes
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      test: ["CMD-SHELL", "mysql -h localhost -u ${MYSQL_USER} -p${MYSQL_PASSWORD} -e 'SELECT 1;'"]
       interval: 10s
       retries: 5
       start_period: 30s

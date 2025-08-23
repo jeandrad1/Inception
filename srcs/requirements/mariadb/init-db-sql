@@ -1,0 +1,3 @@
+CREATE USER IF NOT EXISTS 'db_manager'@'%' IDENTIFIED BY 'supersecretadminpassword';
+GRANT ALL PRIVILEGES ON *.* TO 'db_manager'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;

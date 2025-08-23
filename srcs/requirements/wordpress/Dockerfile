@@ -8,9 +8,12 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     zip \
     git \
+	curl \
+	libfcgi-bin \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql
+    && docker-php-ext-install gd pdo pdo_mysql mysqli
 
+	
 # Install Composer for managing dependencies
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 

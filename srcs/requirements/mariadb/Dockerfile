@@ -1,26 +1,10 @@
-# Use the official MariaDB image
 FROM mariadb:latest
 
-# Install mysql-client to ensure mysqladmin is available
+# We need mysqladmin for the healthcheck defined in docker-compose.yml
 RUN apt-get update && apt-get install -y mariadb-client
 
-# Override the default entrypoint to add user creation commands
-# The script will start mysqld, wait for it, create users, and then keep mysqld running.
-# Use the "shell" form of ENTRYPOINT so that environment variables are substituted.
-ENTRYPOINT /usr/local/bin/docker-entrypoint.sh mysqld & \
-    pid="$!"; \
-    while ! mysqladmin ping -h'localhost' -u'root' -p"${MYSQL_ROOT_PASSWORD}" --silent; do \
-        sleep 1; \
-    done; \
-    mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e " \
-        CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`; \
-        CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}'; \
-        GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO '${MYSQL_USER}'@'%'; \
-        CREATE USER IF NOT EXISTS '${MARIADB_ADMIN_USER}'@'%' IDENTIFIED BY '${MARIADB_ADMIN_PASSWORD}'; \
-        GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO '${MARIADB_ADMIN_USER}'@'%'; \
-        FLUSH PRIVILEGES; \
-    "; \
-    wait "$pid"
+# Copy the initialization script. The official entrypoint will execute any .sql
+# files found in this directory upon first startup.
+COPY ./init-db.sql /docker-entrypoint-initdb.d/
 
-# Expose MariaDB port
 EXPOSE 3306
