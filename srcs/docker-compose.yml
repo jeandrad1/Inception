@@ -5,9 +5,9 @@ services:
       context: ./requirements/wordpress  # Path to the custom WordPress Dockerfile
     environment:
       WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
-      WORDPRESS_DB_USER: ${MYSQL_USER}
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: ${MARIADB_DATABASE}
+      WORDPRESS_DB_USER: ${MARIADB_USER}
+      WORDPRESS_DB_PASSWORD: ${MARIADB_PASSWORD}
     volumes:
       - wordpress_data:/var/www/html  # Volume for WordPress website files
     depends_on:
@@ -15,35 +15,23 @@ services:
     networks:
       - wordpress_network
     restart: always  # Restart the container automatically if it crashes
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/ping"]
-      interval: 10s
-      retries: 5
-      start_period: 30s
-      timeout: 10s
   
   # MariaDB Database
   db:
     build:
       context: ./requirements/mariadb  # Path to the custom MariaDB Dockerfile
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
       MARIADB_ADMIN_USER: ${MARIADB_ADMIN_USER}
       MARIADB_ADMIN_PASSWORD: ${MARIADB_ADMIN_PASSWORD}
     volumes:
-      - db_data:/var/lib/mysql  # Volume for MariaDB data
+      - db_data:/var/lib/MARIADB  # Volume for MariaDB data
     networks:
       - wordpress_network
     restart: always  # Restart the container automatically if it crashes
-    healthcheck:
-      test: ["CMD-SHELL", "mysql -h localhost -u ${MYSQL_USER} -p${MYSQL_PASSWORD} -e 'SELECT 1;'"]
-      interval: 10s
-      retries: 5
-      start_period: 30s
-      timeout: 10s
 
   # NGINX Reverse Proxy
   nginx:
