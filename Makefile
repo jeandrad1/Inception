@@ -11,13 +11,13 @@ up:
 
 # Stop and remove containers
 down:
-    @echo "Stopping and removing services..."
-    docker compose --env-file .env -f $(COMPOSE_FILE) down
+	@echo "Stopping and removing services..."
+	docker compose --env-file .env -f $(COMPOSE_FILE) down
 
 # Stop containers and remove volumes (all data will be lost)
 clean:
-    @echo "Stopping services and deleting all data..."
-    docker compose --env-file .env -f $(COMPOSE_FILE) down --volumes
+	@echo "Stopping services and deleting all data..."
+	docker compose --env-file .env -f $(COMPOSE_FILE) down --volumes
 
 # Rebuild everything from scratch
 re: clean all
