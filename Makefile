@@ -1,26 +1,28 @@
 # Define the compose file path
 COMPOSE_FILE = srcs/docker-compose.yml
 
-# Default command: builds and starts everything
-all: up
+# Starts all services, including the bonus ones
+all:
+    docker-compose -f srcs/docker-compose.yml --profile "*" up --build -d
 
-# Build and start containers in detached mode
+# Starts only the core services (default behavior)
 up:
-	@echo "Building and starting services..."
-	docker compose --env-file .env -f $(COMPOSE_FILE) up --build -d
+    docker-compose -f srcs/docker-compose.yml up --build -d
 
-# Stop and remove containers
+# Starts the core services AND the bonus services
+bonus:
+    docker-compose -f srcs/docker-compose.yml --profile bonus up --build -d
+
+# Stops and removes all containers (core and bonus)
 down:
-	@echo "Stopping and removing services..."
-	docker compose --env-file .env -f $(COMPOSE_FILE) down
+    docker-compose -f srcs/docker-compose.yml --profile "*" down --volumes
 
-# Stop containers and remove volumes (all data will be lost)
+# Cleans the system by removing all containers, networks, volumes, and images
 clean:
-	@echo "Stopping services and deleting all data..."
-	docker compose --env-file .env -f $(COMPOSE_FILE) down --volumes
+    docker-compose -f srcs/docker-compose.yml --profile "*" down --volumes --rmi all
 
-# Rebuild everything from scratch
-re: clean all
+# Shows the logs for all running services
+logs:
+    docker-compose -f srcs/docker-compose.yml logs -f
 
-# Declare targets that are not files
-.PHONY: all up down clean re
+.PHONY: all

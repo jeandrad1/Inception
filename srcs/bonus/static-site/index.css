@@ -1,0 +1,48 @@
+body {
+	margin: 0;
+	padding: 0;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	background-color: #3b3030;
+	font-family: sans-serif;
+}
+
+h1 {
+	font-size: 3rem;
+	color: #ebe5e5;
+	padding: 2rem;
+	font-family: 'Anton', sans-serif;
+}
+
+header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background: #000000;
+	z-index: 1000;
+}
+
+.menu {
+	display: flex;
+	justify-content: center;
+	gap: 1.5rem;
+}
+
+.menu button {
+	background-color: #000000;
+	color: #fff;
+	border: none;
+	padding: 0.7em 1.5em;
+	border-radius: 5px;
+	font-size: 1em;
+	cursor: pointer;
+	transition: background 0.2s;
+}
+
+.menu button:hover {
+	background-color: #666;
+}

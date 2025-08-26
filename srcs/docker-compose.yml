@@ -2,24 +2,24 @@ services:
   # WordPress with PHP-FPM
   wordpress:
     build:
-      context: ./requirements/wordpress  # Path to the custom WordPress Dockerfile
+      context: ./requirements/wordpress
     environment:
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
       WORDPRESS_DB_USER: ${MYSQL_USER}
       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      - wordpress_data:/var/www/html  # Volume for WordPress website files
+      - wordpress_data:/var/www/html
     depends_on:
       - db
     networks:
       - wordpress_network
-    restart: always  # Restart the container automatically if it crashes
-  
+    restart: always
+
   # MariaDB Database
   db:
     build:
-      context: ./requirements/mariadb  # Path to the custom MariaDB Dockerfile
+      context: ./requirements/mariadb
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -28,32 +28,88 @@ services:
       MARIADB_ADMIN_USER: ${MARIADB_ADMIN_USER}
       MARIADB_ADMIN_PASSWORD: ${MARIADB_ADMIN_PASSWORD}
     volumes:
-      - db_data:/var/lib/mysql  # MariaDB data path
+      - db_data:/var/lib/mysql
     networks:
       - wordpress_network
-    restart: always  # Restart the container automatically if it crashes
+    restart: always
 
   # NGINX Reverse Proxy
   nginx:
     build:
-      context: ./requirements/nginx  # Path to the custom NGINX Dockerfile
+      context: ./requirements/nginx
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - wordpress_data:/var/www/html  # Volume for website files
+      - wordpress_data:/var/www/html
     depends_on:
       - wordpress
     networks:
       - wordpress_network
-    restart: always  # Restart the container automatically if it crashes
+    restart: always
+
+  # --- BONUS SERVICES ---
+
+  # Redis Cache
+  redis:
+    build:
+      context: ../bonus/redis
+    container_name: redis
+    networks:
+      - wordpress_network
+    restart: always
+    profiles:
+      - bonus
+
+  # FTP Server
+  ftp:
+    build:
+      context: ../bonus/ftp
+    container_name: ftp
+    volumes:
+      - wordpress_data:/var/www/html
+    ports:
+      - "21:21"
+      - "21100-21110:21100-21110"
+    networks:
+      - wordpress_network
+    restart: always
+    profiles:
+      - bonus
+
+  # Static Website
+  static_site:
+    build:
+      context: ../bonus/static-site
+    container_name: static_site
+    networks:
+      - wordpress_network
+    restart: always
+    profiles:
+      - bonus
+    # Note: No ports are exposed here. You would typically configure
+    # your main NGINX service to reverse proxy to this container
+    # (e.g., at a subdomain like static.yourdomain.com).
+
+  # Adminer
+  adminer:
+    build:
+      context: ../bonus/adminer
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - wordpress_network
+    restart: always
+    profiles:
+      - bonus
 
 # Volumes for persistent data storage
 volumes:
-  db_data:   # Volume for MariaDB database data
-  wordpress_data:  # Volume for WordPress website files
+  db_data:
+  wordpress_data:
 
 # Networks for secure communication
 networks:
   wordpress_network:
-    driver: bridge  # Custom network for communication between containers
+    driver: bridge
