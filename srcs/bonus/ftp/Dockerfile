@@ -1,5 +1,5 @@
-# Use a lightweight Debian image
-FROM debian:buster-slim
+# Use a Debian image
+FROM debian
 
 # Install vsftpd (Very Secure FTP Daemon)
 RUN apt-get update && apt-get install -y vsftpd

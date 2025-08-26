@@ -2,4 +2,4 @@
 FROM nginx:latest
 
 # Copy the static content (HTML, CSS, JS) into the default NGINX public directory
-COPY ./content/ /usr/share/nginx/html
+COPY . /usr/share/nginx/html

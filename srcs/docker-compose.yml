@@ -3,6 +3,8 @@ services:
   wordpress:
     build:
       context: ./requirements/wordpress
+    env_file:
+      ../.env
     environment:
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
@@ -20,6 +22,8 @@ services:
   db:
     build:
       context: ./requirements/mariadb
+    env_file:
+      ../.env
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -53,7 +57,7 @@ services:
   # Redis Cache
   redis:
     build:
-      context: ../bonus/redis
+      context: ./bonus/redis
     container_name: redis
     networks:
       - wordpress_network
@@ -64,7 +68,7 @@ services:
   # FTP Server
   ftp:
     build:
-      context: ../bonus/ftp
+      context: ./bonus/ftp
     container_name: ftp
     volumes:
       - wordpress_data:/var/www/html
@@ -80,7 +84,7 @@ services:
   # Static Website
   static_site:
     build:
-      context: ../bonus/static-site
+      context: ./bonus/static-site
     container_name: static_site
     networks:
       - wordpress_network
@@ -94,7 +98,7 @@ services:
   # Adminer
   adminer:
     build:
-      context: ../bonus/adminer
+      context: ./bonus/adminer
     container_name: adminer
     ports:
       - "8080:8080"

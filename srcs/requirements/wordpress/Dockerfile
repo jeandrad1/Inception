@@ -28,11 +28,12 @@ RUN curl -O https://wordpress.org/latest.tar.gz \
     && rmdir wordpress \
     && chown -R www-data:www-data /var/www/html
 
-# Configure PHP-FPM settings (basic config for WordPress)
-RUN echo "cgi.fix_pathinfo=0" > /usr/local/etc/php/conf.d/99-custom.ini
+# Copy the configuration script into the container
+COPY ./tools/configure-wp.sh /usr/local/bin/configure-wp.sh
+RUN chmod +x /usr/local/bin/configure-wp.sh
 
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000
 
-# Run PHP-FPM (no need for nginx or apache)
-CMD ["php-fpm"]
+# Run the configuration script
+CMD ["/usr/local/bin/configure-wp.sh"]
