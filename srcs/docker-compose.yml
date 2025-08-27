@@ -69,8 +69,10 @@ services:
     build:
       context: ./bonus/ftp
     container_name: ftp
+    env_file:
+      ../.env
     volumes:
-      - wordpress_data:/var/www/html
+      - /home/jeandrad/data/wordpress:/var/www/html
     ports:
       - "21:21"
       - "21100-21110:21100-21110"
