@@ -6,12 +6,12 @@ services:
     env_file:
       ../.env
     environment:
-      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_HOST: db
       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
       WORDPRESS_DB_USER: ${MYSQL_USER}
       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      - wordpress_data:/var/www/html
+      - /home/jeandrad/data/wordpress:/var/www/html
     depends_on:
       - db
     networks:
@@ -32,7 +32,7 @@ services:
       MARIADB_ADMIN_USER: ${MARIADB_ADMIN_USER}
       MARIADB_ADMIN_PASSWORD: ${MARIADB_ADMIN_PASSWORD}
     volumes:
-      - db_data:/var/lib/mysql
+      - /home/jeandrad/data/mariadb:/var/lib/mysql
     networks:
       - wordpress_network
     restart: always
@@ -45,7 +45,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - wordpress_data:/var/www/html
+      - /home/jeandrad/data/wordpress:/var/www/html
     depends_on:
       - wordpress
     networks:
@@ -71,7 +71,7 @@ services:
       context: ./bonus/ftp
     container_name: ftp
     volumes:
-      - wordpress_data:/var/www/html
+      - /home/jeandrad/data/wordpress:/var/www/html
     ports:
       - "21:21"
       - "21100-21110:21100-21110"
@@ -111,7 +111,6 @@ services:
 # Volumes for persistent data storage
 volumes:
   db_data:
-  wordpress_data:
 
 # Networks for secure communication
 networks:
