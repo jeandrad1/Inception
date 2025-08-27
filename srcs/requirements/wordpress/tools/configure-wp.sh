@@ -43,6 +43,12 @@ else
 		--admin_email="${WORDPRESS_ADMIN_EMAIL}" \
 		--path='/var/www/html'
 
+	echo "Installing and configuring Redis..."
+	wp plugin install redis-cache --activate --allow-root
+	wp config set WP_REDIS_HOST redis --allow-root
+	wp config set WP_REDIS_PORT 6379 --allow-root
+	wp redis enable --allow-root
+
 	echo "WordPress configured successfully."
 fi
 
