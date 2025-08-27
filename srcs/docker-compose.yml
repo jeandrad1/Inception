@@ -11,7 +11,7 @@ services:
       WORDPRESS_DB_USER: ${MYSQL_USER}
       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      - /home/jeandrad/data/wordpress:/var/www/html
+      - wordpress_data:/var/www/html
     depends_on:
       - db
     networks:
@@ -32,7 +32,7 @@ services:
       MARIADB_ADMIN_USER: ${MARIADB_ADMIN_USER}
       MARIADB_ADMIN_PASSWORD: ${MARIADB_ADMIN_PASSWORD}
     volumes:
-      - /home/jeandrad/data/mariadb:/var/lib/mysql
+      - db_data:/var/lib/mysql
     networks:
       - wordpress_network
     restart: always
@@ -44,14 +44,14 @@ services:
     ports:
       - "443:443"
     volumes:
-      - /home/jeandrad/data/wordpress:/var/www/html
+      - wordpress_data:/var/www/html
     depends_on:
       - wordpress
     networks:
       - wordpress_network
     restart: always
 
-  # --- BONUS SERVICES ---
+  # BONUS
 
   # Redis Cache
   redis:
@@ -70,7 +70,7 @@ services:
       context: ./bonus/ftp
     container_name: ftp
     volumes:
-      - /home/jeandrad/data/wordpress:/var/www/html
+      - wordpress_data:/var/www/html
     ports:
       - "21:21"
       - "21100-21110:21100-21110"
@@ -90,9 +90,6 @@ services:
     restart: always
     profiles:
       - bonus
-    # Note: No ports are exposed here. You would typically configure
-    # your main NGINX service to reverse proxy to this container
-    # (e.g., at a subdomain like static.yourdomain.com).
 
   # Adminer
   adminer:
@@ -116,7 +113,7 @@ services:
       - "9443:9443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /home/jeandrad/data/portainer:/data
+      - portainer_data:/data
     networks:
       - wordpress_network
     restart: always
@@ -125,7 +122,24 @@ services:
 
 # Volumes for persistent data storage
 volumes:
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/jeandrad/data/wordpress'
+  db_data:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/jeandrad/data/mariadb'
   portainer_data:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/jeandrad/data/portainer'
 
 # Networks for secure communication
 networks:
