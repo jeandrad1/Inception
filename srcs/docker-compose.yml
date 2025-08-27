@@ -108,9 +108,25 @@ services:
     profiles:
       - bonus
 
+  # Portainer
+  portainer:
+    build:
+      context: ./bonus/portainer
+    container_name: portainer
+    ports:
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    networks:
+      - wordpress_network
+    restart: always
+    profiles:
+      - bonus
+
 # Volumes for persistent data storage
 volumes:
-  db_data:
+  portainer_data:
 
 # Networks for secure communication
 networks:
