@@ -1,5 +1,11 @@
-# Use the official NGINX image on Alpine Linux
-FROM nginx:latest
+# Penultimate stable version of Debian
+FROM debian:bookworm
 
-# Copy the static content (HTML, CSS, JS) into the default NGINX public directory
-COPY . /usr/share/nginx/html
+# Install NGINX
+RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
+
+# Copy the static content into the default NGINX public directory
+COPY . /var/www/html/
+
+# Start NGINX in the foreground
+CMD ["nginx", "-g", "daemon off;"]

@@ -1,5 +1,11 @@
-# Use the official Redis image from Docker Hub
-FROM redis:latest
+# Use the penultimate stable version of Debian
+FROM debian:bookworm
 
-# The default command for the redis image is already `redis-server`, but it is easier to read and remember
+# Install Redis server
+RUN apt-get update && apt-get install -y redis-server && rm -rf /var/lib/apt/lists/*
+
+# Expose the default Redis port
+EXPOSE 6379
+
+# Start the Redis server
 CMD ["redis-server"]
