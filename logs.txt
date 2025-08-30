@@ -1,0 +1,98 @@
+docker compose --env-file .env -f srcs/docker-compose.yml logs -f
+db-1  | Starting MariaDB server for general use...
+db-1  | 2025-08-30 12:03:39 0 [Note] Starting MariaDB 10.11.11-MariaDB-0+deb12u1 source revision e69f8cae1a15e15b9e4f5e0f8497e1f17bdc81a4 server_uid yEAxpzWlTrLJdXM61kqPst5uJlA= as process 1
+db-1  | 2025-08-30 12:03:39 0 [Note] InnoDB: Compressed tables use zlib 1.2.13
+db-1  | 2025-08-30 12:03:39 0 [Note] InnoDB: Number of transaction pools: 1
+db-1  | 2025-08-30 12:03:39 0 [Note] InnoDB: Using crc32 + pclmulqdq instructions
+db-1  | 2025-08-30 12:03:39 0 [Warning] mariadbd: io_uring_queue_init() failed with errno 0
+db-1  | 2025-08-30 12:03:39 0 [Warning] InnoDB: liburing disabled: falling back to innodb_use_native_aio=OFF
+db-1  | 2025-08-30 12:03:39 0 [Note] InnoDB: Initializing buffer pool, total size = 128.000MiB, chunk size = 2.000MiB
+db-1  | 2025-08-30 12:03:39 0 [Note] InnoDB: Completed initialization of buffer pool
+db-1  | 2025-08-30 12:03:39 0 [Note] InnoDB: File system buffers for log disabled (block size=512 bytes)
+db-1  | 2025-08-30 12:03:39 0 [Note] InnoDB: End of log at LSN=46996
+db-1  | 2025-08-30 12:03:40 0 [Note] InnoDB: 128 rollback segments are active.
+db-1  | 2025-08-30 12:03:40 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+db-1  | 2025-08-30 12:03:40 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+db-1  | 2025-08-30 12:03:40 0 [Note] InnoDB: log sequence number 46996; transaction id 15
+db-1  | 2025-08-30 12:03:40 0 [Note] InnoDB: Loading buffer pool(s) from /var/lib/mysql/ib_buffer_pool
+db-1  | 2025-08-30 12:03:40 0 [Note] Plugin 'FEEDBACK' is disabled.
+db-1  | 2025-08-30 12:03:40 0 [Warning] You need to use --log-bin to make --expire-logs-days or --binlog-expire-logs-seconds work.
+db-1  | 2025-08-30 12:03:40 0 [Note] Server socket created on IP: '0.0.0.0'.
+db-1  | 2025-08-30 12:03:40 0 [Note] InnoDB: Buffer pool(s) load completed at 250830 12:03:40
+db-1  | 2025-08-30 12:03:40 0 [Note] /usr/sbin/mariadbd: ready for connections.
+db-1  | Version: '10.11.11-MariaDB-0+deb12u1'  socket: '/run/mysqld/mysqld.sock'  port: 3306  Debian 12
+db-1  | 2025-08-30 12:03:42 3 [Warning] Aborted connection 3 to db: 'unconnected' user: 'unauthenticated' host: 'srcs-wordpress-1.srcs_wordpress_network' (This connection closed normally without authentication)
+db-1  | 2025-08-30 12:03:43 4 [Warning] Aborted connection 4 to db: 'unconnected' user: 'unauthenticated' host: 'srcs-wordpress-1.srcs_wordpress_network' (This connection closed normally without authentication)
+db-1  | 2025-08-30 12:03:43 5 [Warning] Aborted connection 5 to db: 'unconnected' user: 'unauthenticated' host: 'srcs-wordpress-1.srcs_wordpress_network' (This connection closed normally without authentication)
+db-1  | 2025-08-30 12:03:44 6 [Warning] Aborted connection 6 to db: 'unconnected' user: 'unauthenticated' host: 'srcs-wordpress-1.srcs_wordpress_network' (This connection closed normally without authentication)
+db-1  | 2025-08-30 12:03:45 7 [Warning] Aborted connection 7 to db: 'unconnected' user: 'unauthenticated' host: 'srcs-wordpress-1.srcs_wordpress_network' (This connection closed normally without authentication)
+db-1  | 2025-08-30 12:03:47 8 [Warning] Aborted connection 8 to db: 'unconnected' user: 'unauthenticated' host: 'srcs-wordpress-1.srcs_wordpress_network' (This connection closed normally without authentication)
+db-1  | 2025-08-30 12:03:50 9 [Warning] Aborted connection 9 to db: 'unconnected' user: 'unauthenticated' host: 'srcs-wordpress-1.srcs_wordpress_network' (This connection closed normally without authentication)
+db-1  | 2025-08-30 12:03:57 10 [Warning] Aborted connection 10 to db: 'unconnected' user: 'unauthenticated' host: 'srcs-wordpress-1.srcs_wordpress_network' (This connection closed normally without authentication)
+db-1  | 2025-08-30 12:04:10 11 [Warning] Aborted connection 11 to db: 'unconnected' user: 'unauthenticated' host: 'srcs-wordpress-1.srcs_wordpress_network' (This connection closed normally without authentication)
+redis  | 1:C 30 Aug 2025 12:03:39.787 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+redis  | 1:C 30 Aug 2025 12:03:39.787 # Redis version=7.0.15, bits=64, commit=00000000, modified=0, pid=1, just started
+redis  | 1:C 30 Aug 2025 12:03:39.787 # Configuration loaded
+redis  | 1:M 30 Aug 2025 12:03:39.787 * monotonic clock: POSIX clock_gettime
+redis  | 1:M 30 Aug 2025 12:03:39.787 * Running mode=standalone, port=6379.
+redis  | 1:M 30 Aug 2025 12:03:39.787 # Server initialized
+redis  | 1:M 30 Aug 2025 12:03:39.787 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+redis  | 1:M 30 Aug 2025 12:03:39.788 * Ready to accept connections
+wordpress-1  | Waiting for database host 'db' on port 3306...
+wordpress-1  | Database is not yet available. Retrying in 2 seconds...
+wordpress-1  | Database port is open. Proceeding with configuration.
+wordpress-1  | Configuring WordPress...
+wordpress-1  |   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+wordpress-1  |                                  Dload  Upload   Total   Spent    Left  Speed
+wordpress-1  |   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 6975k  100 6975k    0     0  16.7M      0 --:--:-- --:--:-- --:--:-- 16.7M
+wordpress-1  | Error: This does not seem to be a WordPress installation.
+wordpress-1  | The used path is: /var/www/html/
+wordpress-1  | Pass --path=`path/to/wordpress` or run `wp core download`.
+wordpress-1  | Waiting for database host 'db' on port 3306...
+wordpress-1  | Database port is open. Proceeding with configuration.
+wordpress-1  | Configuring WordPress...
+wordpress-1  | Error: This does not seem to be a WordPress installation.
+wordpress-1  | The used path is: /var/www/html/
+wordpress-1  | Pass --path=`path/to/wordpress` or run `wp core download`.
+wordpress-1  | Waiting for database host 'db' on port 3306...
+wordpress-1  | Database port is open. Proceeding with configuration.
+wordpress-1  | Configuring WordPress...
+wordpress-1  | Error: This does not seem to be a WordPress installation.
+wordpress-1  | The used path is: /var/www/html/
+wordpress-1  | Pass --path=`path/to/wordpress` or run `wp core download`.
+wordpress-1  | Waiting for database host 'db' on port 3306...
+wordpress-1  | Database port is open. Proceeding with configuration.
+wordpress-1  | Configuring WordPress...
+wordpress-1  | Error: This does not seem to be a WordPress installation.
+wordpress-1  | The used path is: /var/www/html/
+wordpress-1  | Pass --path=`path/to/wordpress` or run `wp core download`.
+wordpress-1  | Waiting for database host 'db' on port 3306...
+wordpress-1  | Database port is open. Proceeding with configuration.
+wordpress-1  | Configuring WordPress...
+wordpress-1  | Error: This does not seem to be a WordPress installation.
+wordpress-1  | The used path is: /var/www/html/
+wordpress-1  | Pass --path=`path/to/wordpress` or run `wp core download`.
+wordpress-1  | Waiting for database host 'db' on port 3306...
+wordpress-1  | Database port is open. Proceeding with configuration.
+wordpress-1  | Configuring WordPress...
+wordpress-1  | Error: This does not seem to be a WordPress installation.
+wordpress-1  | The used path is: /var/www/html/
+wordpress-1  | Pass --path=`path/to/wordpress` or run `wp core download`.
+wordpress-1  | Waiting for database host 'db' on port 3306...
+wordpress-1  | Database port is open. Proceeding with configuration.
+wordpress-1  | Configuring WordPress...
+wordpress-1  | Error: This does not seem to be a WordPress installation.
+wordpress-1  | The used path is: /var/www/html/
+wordpress-1  | Pass --path=`path/to/wordpress` or run `wp core download`.
+wordpress-1  | Waiting for database host 'db' on port 3306...
+wordpress-1  | Database port is open. Proceeding with configuration.
+wordpress-1  | Configuring WordPress...
+wordpress-1  | Error: This does not seem to be a WordPress installation.
+wordpress-1  | The used path is: /var/www/html/
+wordpress-1  | Pass --path=`path/to/wordpress` or run `wp core download`.
+wordpress-1  | Waiting for database host 'db' on port 3306...
+wordpress-1  | Database port is open. Proceeding with configuration.
+wordpress-1  | Configuring WordPress...
+wordpress-1  | Error: This does not seem to be a WordPress installation.
+wordpress-1  | The used path is: /var/www/html/
+wordpress-1  | Pass --path=`path/to/wordpress` or run `wp core download`.
