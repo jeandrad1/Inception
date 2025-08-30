@@ -9,10 +9,6 @@ all:
 up:
 	docker compose --env-file .env -f srcs/docker-compose.yml up --build -d
 
-# Starts the core services AND the bonus services
-bonus:
-	docker compose --env-file .env -f srcs/docker-compose.yml --profile bonus up --build -d
-
 # Stops and removes all containers (core and bonus)
 down:
 	docker compose --env-file .env -f srcs/docker-compose.yml --profile "*" down --volumes
