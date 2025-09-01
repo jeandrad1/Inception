@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy the setup script
+# Give all the permissions to run the script
 COPY tools/db-setup.sh /usr/local/bin/db-setup.sh
 RUN chmod +x /usr/local/bin/db-setup.sh
 

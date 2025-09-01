@@ -1,4 +1,4 @@
-# Use the penultimate stable version of Debian
+# Penultimate stable version of Debian
 FROM debian:bookworm
 
 # Install Redis server

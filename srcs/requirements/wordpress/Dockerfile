@@ -1,4 +1,4 @@
-# Use the penultimate stable version of Debian
+# Penultimate stable version of Debian
 FROM debian:bookworm-slim
 
 # Install dependencies, PHP, and its extensions
@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
 COPY ./tools/www.conf /etc/php/8.2/fpm/pool.d/www.conf
 
 # Copy the configuration script
+# Give the permissions to run the script
 COPY ./tools/configure-wp.sh /usr/local/bin/configure-wp.sh
 RUN chmod +x /usr/local/bin/configure-wp.sh
 
@@ -26,7 +27,7 @@ RUN curl -o /usr/src/wordpress.tar.gz https://wordpress.org/latest.tar.gz \
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000
 
-# Set the entrypoint to your script
+# Set the entrypoint to the script
 ENTRYPOINT ["/usr/local/bin/configure-wp.sh"]
 
 # The CMD is what the entrypoint will execute at the end.

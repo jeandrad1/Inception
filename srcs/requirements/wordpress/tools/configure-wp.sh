@@ -2,7 +2,6 @@
 set -e
 
 # Always copy WordPress files if they don't exist in the target directory.
-# This is safer than checking if the directory is empty.
 if [ ! -f "/var/www/html/index.php" ]; then
     echo "WordPress not found. Copying files..."
     cp -r /usr/src/wordpress/* /var/www/html/
@@ -29,7 +28,8 @@ else
         chmod +x wp-cli.phar
         mv wp-cli.phar /usr/local/bin/wp
     fi
-
+    
+    # Creates the config for wp and install the wp
     wp config create --allow-root \
         --dbname="$WORDPRESS_DB_NAME" \
         --dbuser="$MYSQL_USER" \

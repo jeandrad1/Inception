@@ -7,7 +7,6 @@ mkdir -p /run/mysqld
 chown -R mysql:mysql /run/mysqld
 
 # If the database 'mysql' does not exist, initialize it.
-# This is a more robust check than just seeing if the directory is empty.
 if [ ! -d "/var/lib/mysql/mysql" ]; then
     echo "Initializing MariaDB for the first time..."
     mariadb-install-db --user=mysql --datadir=/var/lib/mysql
